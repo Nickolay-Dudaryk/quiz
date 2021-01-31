@@ -4,6 +4,25 @@ import { fetchQuestions } from './API';
 import QuestionCard from './components/QuestionCard';
 // Types
 import { QuestionState, Difficulty } from './API';
+// Styles
+import { createGlobalStyle } from 'styled-components';
+
+const GlobalStyle = createGlobalStyle`
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  html {
+    height: 80vh;
+  }
+  body {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+`
 
 export type AnswerObject = {
   question: string;
@@ -68,8 +87,9 @@ const App = () => {
   }
 
   return (
+    <>
+    <GlobalStyle />
     <div className="App">
-      <h1>Quiz</h1>
       {isGameOver || userAnswers.length === TOTAL_QUESTIONS ? (
         <button className="start" onClick={startQuiz}>Start</button>
       ) : null}
@@ -94,8 +114,8 @@ const App = () => {
       number !== TOTAL_QUESTIONS - 1 ? (
         <button className="next" onClick={nextQuestion}>Next Question</button>
       ) : null}
-
     </div>
+    </>
   );
 }
 

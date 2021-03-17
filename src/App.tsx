@@ -22,6 +22,14 @@ const GlobalStyle = createGlobalStyle`
     justify-content: center;
     align-items: center;
   }
+  button {
+    border: none;
+    padding: 8px 15px;
+    cursor: pointer;
+  }
+  button:focus {
+    outline: none;
+  }
 `
 
 export type AnswerObject = {
@@ -90,30 +98,36 @@ const App = () => {
     <>
     <GlobalStyle />
     <div className="App">
-      {isGameOver || userAnswers.length === TOTAL_QUESTIONS ? (
-        <button className="start" onClick={startQuiz}>Start</button>
-      ) : null}
-      
-      {!isGameOver && <p className="score">Score: {score}</p>}
-      {loading && <p>Loading...</p>}
+      <div className="quiz">
+        {isGameOver || userAnswers.length === TOTAL_QUESTIONS ? (
+          <div className="start-game">
+            <button className="start animated-button" onClick={startQuiz}>Start</button>
+          </div>
+        ) : null}
+        
+        {!isGameOver && <div className="quiz-score"><span className="score-text">Score</span> <span className="score-number">{score}</span></div>}
+        {loading && <p>Loading...</p>}
 
-      {!loading && !isGameOver && (
-        <QuestionCard
-          questionNumber={number + 1}
-          totalQuestions={TOTAL_QUESTIONS}
-          question={questions[number].question}
-          answers={questions[number].answers}
-          userAnswer={userAnswers ? userAnswers[number] : undefined}
-          callback={checkAnswer}
-        />
-      )}
+        {!loading && !isGameOver && (
+          <QuestionCard
+            questionNumber={number + 1}
+            totalQuestions={TOTAL_QUESTIONS}
+            question={questions[number].question}
+            answers={questions[number].answers}
+            userAnswer={userAnswers ? userAnswers[number] : undefined}
+            callback={checkAnswer}
+          />
+        )}
 
-      {!isGameOver &&
-      !loading &&
-      userAnswers.length === number + 1 &&
-      number !== TOTAL_QUESTIONS - 1 ? (
-        <button className="next" onClick={nextQuestion}>Next Question</button>
-      ) : null}
+        {!isGameOver &&
+        !loading &&
+        userAnswers.length === number + 1 &&
+        number !== TOTAL_QUESTIONS - 1 ? (
+          <div className="quiz-controls">
+            <button className="next animated-button" onClick={nextQuestion}>Next Question</button>
+          </div>
+        ) : null}
+      </div>
     </div>
     </>
   );
